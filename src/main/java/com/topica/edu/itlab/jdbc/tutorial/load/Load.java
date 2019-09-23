@@ -19,7 +19,7 @@ public class Load {
 	public static <T> void loadList(ResultSet rs,List<T> listT,Class<T> type){
 		try {
 			while(rs.next()) {
-				T t = type.newInstance();
+				T t = type.getDeclaredConstructor().newInstance();
 				for (Field field : type.getDeclaredFields()) {
 					field.setAccessible(true);
 					Column column = field.getAnnotation(Column.class);
@@ -44,7 +44,7 @@ public class Load {
 		try {
 			while(rs.next()) {
 				String className = ClassEntity.class.getAnnotation(Table.class).name();
-				String classStudentName = ClassEntity.class.getAnnotation(Table.class).name();
+				String classStudentName = StudentEntity.class.getAnnotation(Table.class).name();
 				String firstFieldName = ClassEntity.class.getDeclaredField("id").getAnnotation(Column.class).name();
 				Long class_id =rs.getLong(className+"_"+firstFieldName);
 				if(!hashMap.keySet().contains(class_id)) {
